@@ -6,14 +6,39 @@
 #endif
 // DDS Clock should be 125,000,000 but mine is a little low
 const uint32_t DDSClock = 125000000;
-                         
+// Use hardware SPI1
+//tft =  Adafruit_ILI9341(TFT_CS, TFT_DC, TFT_RST);
+Adafruit_ILI9341 tft = Adafruit_ILI9341(TFT_CS, TFT_DC, TFT_RST); // Use hardware SPI 
 //uint32_t TargetFrequency = 7028000;
-uint32_t TargetFrequency = 3558000;
-uint8_t TargetPhase = 0;
+//uint32_t TargetFrequency = 3558000;
+//uint8_t TargetPhase = 0;
+// variables for the encoder routines
+int BtnPress = LOW;
+int LastBtnPress = LOW;
+unsigned long lastDebounceTime = 0;  // the last time the encoder button was toggled
+unsigned long debounceDelay = 180;   // the debounce time; increase if the output flickers
+unsigned long DDSStep = 100;
+unsigned char encoder_A;
+unsigned char encoder_B;
+unsigned char encoder_A_prev;
+unsigned int prevNextCode = 0;
+unsigned long store=0;
+
+// constants for the upper and lower limits of the VFO
+const unsigned long VFOUpperLimit = 3800000;
+const unsigned long VFOLowerLimit = 3500000;
+int cnt_step = 0;
+int cnt_step_old = 0;
+unsigned long TargetFrequency = 0;
+const unsigned long TargetPhase = 0;
+unsigned long TargetFrequency_old = 0;
+
 //long vfoSteps[12];
 
 void setup() 
 {
+  TFTinit();
+  TFTsetup();
   
   setUpVfoSteps();
   Serial.begin(9600);//was 115200

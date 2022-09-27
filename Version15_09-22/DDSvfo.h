@@ -1,10 +1,15 @@
 #ifndef BEENHERE            // Make sure we only read header file once 
   #define BEENHERE
-//################## AD9850 Pins #####################   
-  #define DDSRST PB8
+//################## AD9850 Pins on Separate board #####################   
+  // #define DDSRST PB8
+  // #define DATA PB7
+  // #define FQ_UD   PB9
+  // #define CLOCK  PB6
+//################## AD9850 Pins Blue Pill and AD(850 same veroboard using vero strips) #####################   
+  #define DDSRST PB6
   #define DATA PB7
-  #define FQ_UD   PB9
-  #define CLOCK  PB6
+  #define FQ_UD   PB8
+  #define CLOCK  PB9
   //################## Stepper Pins  ##################### 
   #define microPin1       PA9  //M0 or MS1 Red wire                                                                             
   #define microPin2       PA10  //was 6 White wire
@@ -12,20 +17,60 @@
   #define enablePin          PA12  //DRV8825 stepPin black wire. Low is enable 
   #define dirPin             PA15  // DRV8825 dirPin  Purple
   #define stepPin            PB3   // DRV8825 stepPin  Blue
+//##################  rotary encoder pins ################## 
+  #define pin_A  PB12
+  #define pin_B PB13 
+  #define BTN   PB14  
+//################## TFT pins SPI1 plus: ################## 
+//      Vcc 3.3V             --->  ILI9340 Pin# 1
+//      GND                  --->          Pin# 2
+// ################## User defined  TFT pins
+#define TFT_CS    PA1 // --->          Pin# 3
+#define TFT_RST   PA4 // --->          Pin# 4
+#define TFT_DC    PA3 // --->          Pin# 5
+//################## Hardware SPI TFT pins 
+//      TFT_MOSI //PA7       --->          Pin# 6
+//      TFT_SCK  //PA5       --->          Pin# 7
+//      LED backlight  3V3   --->          Pin# 8
+//      TFT_MISO       N/C   --->          Pin# 9  
 //################## includes #####################   
   #include <Arduino.h>
-  //##################function prototypes #####################  
+  #include <SPI.h>
+  #include <Adafruit_GFX.h>
+  #include  <Adafruit_ILI9341.h> 
+//##################function prototypes #####################  
   void DDSInit(void);
+  void TFTinit(void);
+  void TFTsetup(void); 
   void pulseHigh(int );  
   void TransferByte(byte ); 
   void SetFrequency (uint32_t, uint8_t) ; 
   void UpdateDDS(int32_t, uint8_t);  
   void DDSDown(void);
   void setUpVfoSteps(void);  
-  //  ################ Extern variables and constants ##############
+  unsigned int read_rotary(void); 
+  //  ################ Extern classes, variables and constants ##############
+  extern Adafruit_ILI9341  tft;
   extern const uint32_t DDSClock;
   extern long vfoSteps[];
-  // ################ Color definitions ################
+  extern int BtnPress;
+  extern int LastBtnPress;
+  extern unsigned long lastDebounceTime;  // the last time the encoder button was toggled
+  extern unsigned long debounceDelay;   // the debounce time; increase if the output flickers
+  extern unsigned long DDSStep;
+  extern unsigned char encoder_A;
+  extern unsigned char encoder_B;
+  extern unsigned char encoder_A_prev;
+  extern unsigned int prevNextCode;
+  extern  unsigned long store;
+  extern const unsigned long VFOUpperLimit;
+  extern const unsigned long VFOLowerLimit;
+  extern int cnt_step;
+  extern int cnt_step_old;
+  extern unsigned long TargetFrequency;
+  extern const unsigned long TargetPhase;
+  extern unsigned long TargetFrequency_old;  
+   // ################ Color definitions ################
   #define BLACK         0x0000
   #define BLUE          0x001F
   #define RED           0xF800
