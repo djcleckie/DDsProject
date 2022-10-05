@@ -11,7 +11,8 @@ const uint32_t DDSClock = 125000000;
 Adafruit_ILI9341 tft = Adafruit_ILI9341(TFT_CS, TFT_DC, TFT_RST); // Use hardware SPI 
 //uint32_t TargetFrequency = 7028000;
 //uint32_t TargetFrequency = 3558000;
-//uint8_t TargetPhase = 0;
+uint32_t TargetFrequency =  21058000;
+uint8_t TargetPhase = 0;
 // variables for the encoder routines
 int BtnPress = LOW;
 int LastBtnPress = LOW;
@@ -29,8 +30,8 @@ const unsigned long VFOUpperLimit = 3800000;
 const unsigned long VFOLowerLimit = 3500000;
 int cnt_step = 0;
 int cnt_step_old = 0;
-unsigned long TargetFrequency = 0;
-const unsigned long TargetPhase = 0;
+//unsigned long TargetFrequency = 0;
+//const unsigned long TargetPhase = 0;
 unsigned long TargetFrequency_old = 0;
 
 //long vfoSteps[12];
@@ -43,7 +44,9 @@ void setup()
   setUpVfoSteps();
   Serial.begin(9600);//was 115200
   delay(3000);
-  Serial.println("Starting");
+  Serial.println("Starting Now");
+  Serial.print("TargetFrequency      ");
+  Serial.println(TargetFrequency); 
   DDSInit();
   SetFrequency(TargetFrequency, TargetPhase);
 }

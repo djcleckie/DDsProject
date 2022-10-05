@@ -17,14 +17,18 @@ void TFTsetup()
 // setup and initialise the screen
   tft.begin();
   tft.setRotation(1);
-  tft.fillScreen(ILI9341_BLACK);
-  tft.fillRect(0, 110, 320, 95, ILI9341_RED);
+  tft.fillScreen(ILI9341_RED);
+  //tft.fillRect(0, 110, 320, 95, ILI9341_RED);
   tft.setCursor(110, 10);
-  tft.setTextColor(ILI9341_RED);    
+  tft.setTextColor(CYAN);    
   tft.setTextSize(4);
   tft.println("GM4NFI");
   tft.setTextColor(ILI9341_GREEN);  
   tft.setCursor(55, 60);
   tft.setTextSize(3);
   tft.println("DDS VFO");
+  tft.setCursor(5, 100);
+  tft.setTextSize(2);
+  tft.print("QRG = ");
+  tft.println(TargetFrequency);
 }  
