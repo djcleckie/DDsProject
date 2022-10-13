@@ -38,6 +38,15 @@
   #include <SPI.h>
   #include <Adafruit_GFX.h>
   #include  <Adafruit_ILI9341.h> 
+  #include <HardwareSerial.h>
+//################## Constants #####################
+//define VFOUpperLimit  3800000ul
+//#define VFOLowerLimit  3500000ul
+//#define cnt_step 0
+//#define cnt_step_old 0
+//#define TargetFrequency 0ul
+//#define  TargetPhase 0ul
+//#define TargetFrequency_old 0
 //##################function prototypes #####################  
   void DDSInit(void);
   void TFTinit(void);
@@ -49,6 +58,10 @@
   void DDSDown(void);
   void setUpVfoSteps(void);  
   unsigned int read_rotary(void); 
+  void DisplayFreq(unsigned long);
+  void StepSelect();
+  void rotary_enc();
+  void setupTFTmessages();
   //  ################ Extern classes, variables and constants ##############
   extern Adafruit_ILI9341  tft;
   extern const uint32_t DDSClock;
@@ -69,7 +82,10 @@
   extern int cnt_step_old;
   extern uint32_t  TargetFrequency;
   extern uint8_t TargetPhase;
-  extern unsigned long TargetFrequency_old;  
+  extern unsigned long TargetFrequency_old; 
+  extern char *tftMessages[]; 
+  //extern HardwareSerial  Serial;
+  
    // ################ Color definitions ################
   #define BLACK         0x0000
   #define BLUE          0x001F

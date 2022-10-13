@@ -53,3 +53,38 @@ void rotary_enc()
     }
   }
 }
+
+void StepSelect()
+{
+  BtnPress = digitalRead(BTN);
+
+  if (BtnPress != LastBtnPress)
+  {
+    lastDebounceTime = millis();
+  }
+
+  if ((millis() - lastDebounceTime) > debounceDelay)
+  {
+    if (BtnPress == LOW)
+    {
+      if (cnt_step == 0) {
+        DDSStep = 10; 
+      }
+      else if (cnt_step == 1) {
+        DDSStep = 100; 
+      }
+      else if (cnt_step == 2) {
+        DDSStep = 1000;  
+      }
+      else if (cnt_step == 3) {
+        DDSStep = 10000;  
+      }
+      cnt_step = cnt_step + 1;
+    
+      if (cnt_step == 4) {
+        cnt_step = 0 ;
+      }
+    }
+  }  
+  LastBtnPress = BtnPress;
+}//end StepSelect()

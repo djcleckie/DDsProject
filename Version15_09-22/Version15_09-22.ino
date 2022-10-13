@@ -24,9 +24,10 @@ unsigned char encoder_B;
 unsigned char encoder_A_prev;
 unsigned int prevNextCode = 0;
 unsigned long store=0;
+char *tftMessages[]={"GM4NFI","DDS VFO","QRG"};
 
 // constants for the upper and lower limits of the VFO
-const unsigned long VFOUpperLimit = 3800000;
+//const unsigned long VFOUpperLimit = 3800000;
 const unsigned long VFOLowerLimit = 3500000;
 int cnt_step = 0;
 int cnt_step_old = 0;
@@ -40,7 +41,7 @@ void setup()
 {
   TFTinit();
   TFTsetup();
-  
+  setupTFTmessages();
   setUpVfoSteps();
   Serial.begin(9600);//was 115200
   delay(3000);
@@ -54,9 +55,30 @@ void setup()
 void loop() 
 {
   // put your main code here, to run repeatedly:
+// check for button press
+  StepSelect();
+  if (cnt_step != cnt_step_old) 
+  {
+    // if its changed we need to update the old
+    // value and update the display
+    cnt_step_old = cnt_step;
+    DisplayFreq(TargetFrequency);
+  }
 
+  // check for tuning change
+  rotary_enc();
+  if (TargetFrequency != TargetFrequency_old) {
+    TargetFrequency_old = TargetFrequency;
+    // set DDS frequency if its changed
+    // and update the display
+    SetFrequency(TargetFrequency, TargetPhase);
+    DisplayFreq(TargetFrequency);
+  }
 }
 
-
+void setupTFTmessages()
+ {
+  tftMessages[0]="GM4NFI/P";
+ }
 
   

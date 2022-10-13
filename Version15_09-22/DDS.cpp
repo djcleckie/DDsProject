@@ -12,12 +12,14 @@ void DDSInit()
   digitalWrite(CLOCK, LOW);
   digitalWrite(FQ_UD, LOW);
   digitalWrite(DDSRST, LOW);
-  
+    
+  // give the AD9851 2 seconds after power on
+  delay (1000);
   pulseHigh(DDSRST);
   pulseHigh(CLOCK);
   pulseHigh(FQ_UD);  // this pulse enables serial mode on the AD9850 - Datasheet page 12.  
 
-  delay (2000);
+  
 }
 void pulseHigh(int pin)
 {
