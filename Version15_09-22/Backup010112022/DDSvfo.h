@@ -1,7 +1,5 @@
 #ifndef BEENHERE            // Make sure we only read header file once 
-#define BEENHERE
-//################## Version Information ##################### 
-#define myversion 22.11.01.01  //yy.mm.dd.vv vv increments on the day resets to 01 next day
+  #define BEENHERE
 //################## AD9850 Pins on Separate board #####################   
 //  #define DDSRST PB8
 //  #define DATA PB7
